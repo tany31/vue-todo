@@ -3,11 +3,10 @@
     class="todo__item"
     :class="{ 'todo__item--done': todo.done }"
   >
-    {{ index + 1 }}. {{ todo.text }}
+    {{ todo.text }}
     <input type="checkbox" v-model="todo.done"/>
     <VButton
       class="button--icon todo__remove-button"
-      type="button"
       @click="$emit('remove', todo.id)"
     >
     ✕
@@ -19,6 +18,7 @@
 import VButton from './VButton';
 
 export default {
+  name: 'TodoListItem',
   components: {
     VButton
   },
@@ -26,11 +26,7 @@ export default {
     todo: {
       type: Object,
       required: true
-    },
-    index: {
-      type: Number,
-      required: true
-    },
+    }
   }
 }
 </script>
@@ -38,7 +34,6 @@ export default {
 <style scoped>
   .todo__item {
     position: relative;
-    list-style: none;
     padding: 5px 10px;
     border-bottom: 1px solid #f1efef;
   }

@@ -1,24 +1,23 @@
 <template>
   <div class="todo">
     <h1>Список дел</h1>
-    <form>
-      <VInput v-model="todoInputValue" @keypress.enter.prevent="addTodo"/>
-      <VButton @click="addTodo" type="button">Добавить</VButton>
+    <form @submit.prevent="addTodo">
+      <VInput v-model.trim="todoInputValue"/>
+      <VButton type="submit">Добавить</VButton>
     </form>
-    <label for="onlyUndone">
+    <label>
       Только несделанные
-      <input type="checkbox"  id="onlyUndone" v-model="onlyUndone"/>
-    </label>  
+      <input type="checkbox" v-model="onlyUndone"/>
+    </label>
 
-    <ul v-if="filteredTodos.length" class="todo__list">
+    <ol v-if="filteredTodos.length" class="todo__list">
       <TodoListItem
-        v-for="(todo, index) in filteredTodos"
+        v-for="todo in filteredTodos"
         :key="todo.id"
         :todo="todo"
-        :index="index"
         @remove="removeTodo"
       />
-    </ul>
+    </ol>
     <p v-else>Список дел пуст</p>
   </div>
 </template>
@@ -27,6 +26,8 @@
 import VInput from './VInput';
 import VButton from './VButton';
 import TodoListItem from './TodoListItem';
+
+let nextId =  0;
 
 export default {
   name: 'TodoList',
@@ -38,7 +39,6 @@ export default {
   data() {
     return {
       todos: [],
-      nextId: 0,
       todoInputValue: '',
       onlyUndone: false,
     }
@@ -54,18 +54,16 @@ export default {
   },
   methods: {
     addTodo() {
-      const trimmedValue = this.todoInputValue.trim();
-
-      if (trimmedValue) {
+      if (this.todoInputValue) {
         const newTodo = {
-          text: trimmedValue,
-          id: this.nextId,
+          text: this.todoInputValue,
+          id: nextId,
           done: false
         }
-        this.todos.push(newTodo);
+        this.todos = [...this.todos, newTodo];
   
         this.todoInputValue = '';
-        this.nextId++;
+        nextId++;
       }
     },
     removeTodo(todoId) {

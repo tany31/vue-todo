@@ -1,13 +1,14 @@
 <template>
   <input
     class="input"
-    :value="value"
+    v-model="modelWrapper"
     v-on="inputListeners"
   />
 </template>
 
 <script>
 export default {
+  name: 'VInput',
   props: {
     value: {
       type: String,
@@ -16,12 +17,19 @@ export default {
   },
   computed: {
     inputListeners: function () {
-      var vm = this
       return {
         ...this.$listeners,
-        input: (event) => vm.$emit('input', event.target.value)
+        input: () => this.modelWrapper
       }
-    }
+    },
+    modelWrapper: {
+      get() {
+        return this.value
+      },
+      set(value) {
+        this.$emit('input', value)
+      }
+    },
   },
 }
 </script>
