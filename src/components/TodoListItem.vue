@@ -1,5 +1,8 @@
 <template>
-  <li  class="todo__item" v-bind:class="{ 'todo__item--done': todo.done }">
+  <li 
+    class="todo__item"
+    :class="{ 'todo__item--done': todo.done }"
+  >
     {{ index + 1 }}. {{ todo.text }}
     <input type="checkbox" v-model="todo.done"/>
     <VButton

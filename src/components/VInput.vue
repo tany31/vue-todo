@@ -1,14 +1,28 @@
 <template>
   <input
     class="input"
-    v-bind:value="value"
-    v-on:input="$emit('input', $event.target.value)"
+    :value="value"
+    v-on="inputListeners"
   />
 </template>
 
 <script>
 export default {
-  props: ['value']
+  props: {
+    value: {
+      type: String,
+      required: true
+    }
+  },
+  computed: {
+    inputListeners: function () {
+      var vm = this
+      return {
+        ...this.$listeners,
+        input: (event) => vm.$emit('input', event.target.value)
+      }
+    }
+  },
 }
 </script>
 

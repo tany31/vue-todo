@@ -2,13 +2,17 @@
   <div class="todo">
     <h1>Список дел</h1>
     <form>
-      <VInput v-model="todoInputValue"/>
+      <VInput v-model="todoInputValue" @keypress.enter.prevent="addTodo"/>
       <VButton @click="addTodo" type="button">Добавить</VButton>
     </form>
+    <label for="onlyUndone">
+      Только несделанные
+      <input type="checkbox"  id="onlyUndone" v-model="onlyUndone"/>
+    </label>  
 
-    <ul v-if="todos.length" class="todo__list">
+    <ul v-if="filteredTodos.length" class="todo__list">
       <TodoListItem
-        v-for="(todo, index) in todos"
+        v-for="(todo, index) in filteredTodos"
         :key="todo.id"
         :todo="todo"
         :index="index"
@@ -36,6 +40,16 @@ export default {
       todos: [],
       nextId: 0,
       todoInputValue: '',
+      onlyUndone: false,
+    }
+  },
+  computed: {
+    filteredTodos: function () {
+      if (this.onlyUndone) {
+        return this.todos.filter(({ done }) => !done)
+      }
+
+      return this.todos
     }
   },
   methods: {
@@ -56,7 +70,6 @@ export default {
     },
     removeTodo(todoId) {
       this.todos = this.todos.filter(({ id }) => id !== todoId);
-      console.log(this.todos)
     }
   }
 }
