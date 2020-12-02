@@ -1,7 +1,7 @@
 <template>
   <div class="todo">
     <h1>Список дел</h1>
-    <form @submit.prevent="addTodo">
+    <form @submit.prevent="add">
       <VInput v-model.trim="todoInputValue"/>
       <VButton type="submit">Добавить</VButton>
     </form>
@@ -16,6 +16,7 @@
         :key="todo.id"
         :todo="todo"
         @remove="removeTodo"
+        @update="updateTodo"
       />
     </ol>
     <p v-else>Список дел пуст</p>
@@ -23,9 +24,10 @@
 </template>
 
 <script>
-import VInput from './VInput';
-import VButton from './VButton';
-import TodoListItem from './TodoListItem';
+import VInput from './VInput'
+import VButton from './VButton'
+import TodoListItem from './TodoListItem'
+import { mapActions, mapGetters } from 'vuex'
 
 let nextId =  0;
 
@@ -36,39 +38,39 @@ export default {
     VButton,
     TodoListItem,
   },
+  created() {
+    this.loadTodos()
+  },
   data() {
     return {
-      todos: [],
       todoInputValue: '',
       onlyUndone: false,
     }
   },
   computed: {
+    ...mapGetters(['todos', 'undoneTodos']),
     filteredTodos: function () {
       if (this.onlyUndone) {
-        return this.todos.filter(({ done }) => !done)
+        return this.undoneTodos
       }
-
       return this.todos
     }
   },
   methods: {
-    addTodo() {
+    ...mapActions(['loadTodos', 'addTodo', 'removeTodo', 'updateTodo']),
+    add() {
       if (this.todoInputValue) {
         const newTodo = {
           text: this.todoInputValue,
           id: nextId,
           done: false
         }
-        this.todos = [...this.todos, newTodo];
-  
-        this.todoInputValue = '';
-        nextId++;
+
+        this.addTodo(newTodo)
+        this.todoInputValue = ''
+        nextId++
       }
     },
-    removeTodo(todoId) {
-      this.todos = this.todos.filter(({ id }) => id !== todoId);
-    }
   }
 }
 </script>

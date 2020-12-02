@@ -4,7 +4,7 @@
     :class="{ 'todo__item--done': todo.done }"
   >
     {{ todo.text }}
-    <input type="checkbox" v-model="todo.done"/>
+    <input type="checkbox" v-model="todo.done" @change="$emit('update', todo)"/>
     <VButton
       class="button--icon todo__remove-button"
       @click="$emit('remove', todo.id)"
