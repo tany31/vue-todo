@@ -1,12 +1,10 @@
 <template>
-  <li class="post-item">
-    <router-link
-      class="post-item__link"
-      :to="{ name: 'Post', params: { id: post.id } }"
-    >
-    {{ post.title }}
-    </router-link>
-  </li>
+  <router-link
+    class="post-item"
+    :to="{ name: 'Post', params: { id: post.id } }"
+  >
+  {{ post.title }}
+  </router-link>
 </template>
 
 <script>
@@ -22,20 +20,16 @@ export default {
 
 <style scoped>
 .post-item {
-  list-style-type: none;
   line-height: 1.5;
+  color: #000;
+  text-decoration: none;
 }
 
 .post-item__image {
   max-width: 300px;
 }
 
-.post-item__link {
-  color: #000;
-  text-decoration: none;
-}
-
-.post-item__link:hover {
+.post-item:hover {
   text-decoration: underline;
   color: #42b983;
 }

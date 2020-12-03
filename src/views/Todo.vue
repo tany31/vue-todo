@@ -31,7 +31,10 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['todos', 'undoneTodos']),
+    todos() {
+      return this.$store.state.todo.todos
+    },
+    ...mapGetters(['undoneTodos']),
     filteredTodos: function () {
       const { todos, onlyUndone, undoneTodos } = this
 

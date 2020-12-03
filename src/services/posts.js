@@ -126,5 +126,5 @@ export function getPostList() {
 }
 
 export function getPost(id) {
-  return postList.find(n => n.id === id)
+  return postList.find(p => p.id === id)
 }

@@ -11,10 +11,13 @@ import { getPost } from '../services/posts'
 
 export default {
   name: 'postItem',
-  computed: {
-    post() {
-      return getPost(this.$route.params.id)
+  data() {
+    return {
+      post: {}
     }
+  },
+  created() {
+    this.post = getPost(this.$route.params.id)
   }
 }
 </script>

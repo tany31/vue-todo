@@ -1,23 +1,18 @@
-import Vue from 'vue'
-
 let nextId =  0;
 
 export default {
   namespace: true,
   state: {
-    todos: []
+    todos: [],
   },
   getters: {
-    todos(state) {
-      return state.todos
-    },
     undoneTodos(state) {
       return state.todos.filter(({ done }) => !done)
     }
   },
   mutations: {
-    SET_TODOS(state, payload) {
-      state.todos = payload
+    SET_TODOS(state, todos) {
+      state.todos = todos
     },
     ADD_TODO(state, todo) {
       state.todos = [...state.todos, todo]
@@ -26,11 +21,7 @@ export default {
       state.todos = state.todos.filter(todo => todo.id !== id)
     },
     UPDATE_TODO(state, todo) {
-      const todoToUpdateIndex = state.todos.findIndex(t => t.id === todo.id)
-
-      if (todoToUpdateIndex >= 0) {
-        Vue.set(state.todos, todoToUpdateIndex, todo)
-      }
+      state.todos = state.todos.map(old => old.id === todo.id ? todo : old);
     }
   },
   actions: {

@@ -1,12 +1,12 @@
 <template>
-  <ol class="todo__list">
-    <TodoListItem
-      v-for="todo in todos"
-      :key="todo.id"
-      :todo="todo"
-      @remove="removeTodo"
-      @update="updateTodo"
-    />
+  <ol class="todo-list">
+    <li v-for="todo in todos" :key="todo.id" >
+      <TodoListItem
+        :todo="todo"
+        @remove="removeTodo(todo.id)"
+        @update="handleUpdateDone(todo)"
+      />
+    </li>
   </ol>
 </template>
 
@@ -25,12 +25,15 @@ export default {
   },
   methods: {
     ...mapActions(['updateTodo', 'removeTodo']),
+    handleUpdateDone({id, text, done}) {
+      this.updateTodo({id, text, done: !done})
+    }
   }
 }
 </script>
 
-<style scoped>
-.todo__list {
+<style>
+.todo-list {
   margin: 0;
   margin-top: 10px;
   padding: 0;

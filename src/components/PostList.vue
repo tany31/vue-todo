@@ -1,10 +1,8 @@
 <template>
   <ul class="post-list">
-    <PostListItem
-      v-for="post in postList"
-      :key="post.id"
-      :post="post"
-    />
+    <li v-for="post in postList" :key="post.id">
+      <PostListItem :post="post"/>
+    </li>
   </ul>
 </template>
 

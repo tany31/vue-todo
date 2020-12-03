@@ -1,5 +1,5 @@
 <template>
-  <li 
+  <label
     class="todo__item"
     :class="{ 'todo__item--done': todo.done }"
   >
@@ -7,11 +7,11 @@
     <input type="checkbox" v-model="done"/>
     <VButton
       class="button--icon todo__remove-button"
-      @click="$emit('remove', todo.id)"
+      @click="$emit('remove')"
     >
     ✕
     </VButton>
-  </li>
+  </label>
 </template>
 
 <script>
@@ -33,9 +33,8 @@ export default {
       get () {
         return this.todo.done
       },
-      set (value) {
-        const { id, text } = this.todo
-        this.$emit('update', { id, text, done: value })
+      set () {
+        this.$emit('update')
       }
     }
   }
@@ -44,6 +43,8 @@ export default {
 
 <style scoped>
   .todo__item {
+    display: inline-block;
+    width: 100%;
     position: relative;
     padding: 5px 10px;
     border-bottom: 1px solid #f1efef;
