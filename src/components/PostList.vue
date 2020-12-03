@@ -22,10 +22,8 @@ export default {
       postList: []
     }
   },
-
-  mounted() {
+  created() {
     this.postList = getPostList()
   }
-
 }
 </script>

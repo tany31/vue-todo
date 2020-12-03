@@ -1,12 +1,6 @@
 import Vue from 'vue'
 
-const loadTodos = () => {
-  return new Promise((resolve) => {
-    setTimeout(() => {
-      resolve([])
-    }, 1000)
-  })
-}
+let nextId =  0;
 
 export default {
   namespace: true,
@@ -34,22 +28,19 @@ export default {
     UPDATE_TODO(state, todo) {
       const todoToUpdateIndex = state.todos.findIndex(t => t.id === todo.id)
 
-      if (todoToUpdateIndex > 0) {
+      if (todoToUpdateIndex >= 0) {
         Vue.set(state.todos, todoToUpdateIndex, todo)
       }
     }
   },
   actions: {
-    async loadTodos({ commit }) {
-      try {
-        const todos = await loadTodos()
-        commit('SET_TODOS', todos)
-      } catch (error) {
-        console.error(error)
-      }
+    loadTodos({ commit }) {
+      commit('SET_TODOS', [])
     },
-    addTodo({ commit }, newTodo) {
-      commit('ADD_TODO', newTodo)
+    addTodo({ commit }, text) {
+      if (text) {
+        commit('ADD_TODO', { text, done: false, id: nextId++ })
+      }
     },
     removeTodo({ commit }, id) {
       commit('REMOVE_TODO', id)
