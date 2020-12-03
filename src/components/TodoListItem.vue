@@ -4,7 +4,7 @@
     :class="{ 'todo__item--done': todo.done }"
   >
     {{ todo.text }}
-    <input type="checkbox" v-model="todo.done" @change="$emit('update', todo)"/>
+    <input type="checkbox" v-model="done"/>
     <VButton
       class="button--icon todo__remove-button"
       @click="$emit('remove', todo.id)"
@@ -26,6 +26,17 @@ export default {
     todo: {
       type: Object,
       required: true
+    }
+  },
+  computed: {
+    done: {
+      get () {
+        return this.todo.done
+      },
+      set (value) {
+        const { id, text } = this.todo
+        this.$emit('update', { id, text, done: value })
+      }
     }
   }
 }
